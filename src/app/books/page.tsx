@@ -3,7 +3,10 @@ import { IBook } from "@/types/books.type";
 import React from "react";
 
 const getBooks = async () => {
-    const response = await fetch("http://localhost:3000/booksData.json");
+    try{
+    const response = await fetch(
+        `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/booksData.json`,
+    );
 
     if (!response.ok) {
         throw new Error("Failed to fetch books");
@@ -12,6 +15,10 @@ const getBooks = async () => {
     const data = await response.json();
 
     return data;
+    }catch(error){
+        console.error("Error fetching books data:", error);
+        return [];
+    }
 };
 
 const Books = async () => {
