@@ -2,20 +2,20 @@ import React from "react";
 import BookCard from "./BookCard";
 import { IBook } from "@/types/books.type";
 
-const getBooks = async () => {
-    try{
-    const response = await fetch(
-        `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/booksData.json`,
-    );
+const getBooks = async (): Promise<IBook[]> => {
+    try {
+        const response = await fetch(
+            `${process.env.NEXT_PUBLIC_SERVER_BASE_URL}/booksData.json`
+        );
 
-    if (!response.ok) {
-        throw new Error("Failed to fetch books");
-    }
+        if (!response.ok) {
+            throw new Error("Failed to fetch books");
+        }
 
-    const data = await response.json();
+        const data: IBook[] = await response.json();
 
-    return data;
-    }catch(error){
+        return data;
+    } catch (error) {
         console.error("Error fetching books data:", error);
         return [];
     }
@@ -40,7 +40,7 @@ const Books = async () => {
 
             {/* Books Grid */}
             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-                {booksData.slice(0, 9).map((book: IBook) => (
+                {booksData.slice(0, 9).map((book) => (
                     <BookCard key={book.bookId} book={book} />
                 ))}
             </div>
